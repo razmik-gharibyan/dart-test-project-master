@@ -167,10 +167,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             User(name: _signUpData.login, password: _signUpData.password, email: _signUpData.email,
                 firstName: _signUpData.firstName, lastName: _signUpData.lastName ))
             .then((createdUser) async {
+             await usersClient.login(_signUpData.login, _signUpData.password);
              globals.currentUser = createdUser;
           _clearUi();
           Navigator.of(context).pushReplacementNamed(ChatListPage.routeName);
-          await usersClient.login(_signUpData.login, _signUpData.password);
         }).catchError((signUpError) {
           final snackBar = SnackBar(
               content: Text('Sign up failed: ${signUpError.message}'));

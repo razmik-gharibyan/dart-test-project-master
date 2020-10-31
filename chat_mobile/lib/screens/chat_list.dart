@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:chat_api_client/chat_api_client.dart';
+import 'package:chat_mobile/screens/create_chat.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,7 @@ class _ChatListPageState extends State<ChatListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/create_chat').then((resultValue) {
+          Navigator.of(context).pushNamed(CreateChatPage.routeName).then((resultValue) {
             if (resultValue != null && resultValue is bool && resultValue) {
               refreshChats();
             }
