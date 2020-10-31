@@ -1,3 +1,5 @@
+import 'package:chat_mobile/screens/sign_in_screen.dart';
+
 import 'widgets/chat_component.dart';
 import 'package:flutter/material.dart';
 
@@ -37,14 +39,15 @@ class _SimpleChatAppState extends State<SimpleChatApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/',
+        home: LoginPage(),
         routes: {
-          '/': (context) => LoginPage(),
-          '/chat_list': (context) => ChatListPage(
-                title: 'Chat list',
-                chatComponent: widget._chatComponent,
-              ),
-          '/create_chat': (context) => CreateChatPage(title: 'Create Chat'),
+          LoginPage.routeName: (ctx) => LoginPage(),
+          SignUpScreen.routeName: (ctx) => SignUpScreen(),
+          ChatListPage.routeName: (ctx) => ChatListPage(
+            title: 'Chat list',
+            chatComponent: widget._chatComponent,
+          ),
+          CreateChatPage.routeName: (ctx) => CreateChatPage(title: 'Create Chat'),
         },
       ),
     );

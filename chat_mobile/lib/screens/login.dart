@@ -1,11 +1,15 @@
 import 'package:chat_api_client/chat_api_client.dart';
-import 'package:chat_models/chat_models.dart';
+import 'package:chat_mobile/screens/chat_list.dart';
+import 'package:chat_mobile/screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_mobile/api/api_client.dart';
 import 'package:chat_mobile/globals.dart' as globals;
 
 class LoginPage extends StatefulWidget {
+
+  static const String routeName = "/login-screen";
+
   LoginPage({Key key}) : super(key: key);
 
   @override
@@ -44,13 +48,21 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(body: Builder(
       builder: (BuildContext scaffoldContext) {
         return Container(
-          padding: new EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Center(
             child: Form(
               key: this._formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: [
+                  Text(
+                    'Login Page',
+                    style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
+                    ),
+                  ),
                   TextFormField(
                     controller: _loginController,
                     validator: this._validateLogin,
@@ -72,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: 'Password', labelText: 'Enter your password'),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -84,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                         FlatButton(
                           child: Text("Sign up"),
                           onPressed: () {
-                            _signUp(scaffoldContext);
+                           Navigator.of(context).pushReplacementNamed(SignUpScreen.routeName);
                           },
                         ),
                       ],
@@ -99,42 +111,15 @@ class _LoginPageState extends State<LoginPage> {
     ));
   }
 
-  _signUp(BuildContext context) {
-    if (this._formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      _showDialog(_loginData.login).then((resultValue) {
-        if (resultValue != null && resultValue is bool && resultValue) {
-          UsersClient usersClient = UsersClient(MobileApiClient());
-          usersClient
-              .create(
-                  User(name: _loginData.login, password: _loginData.password))
-              .then((createdUser) {
-            _clearUi();
-            final snackBar =
-                SnackBar(content: Text('User \'${createdUser.name}\' created'));
-            Scaffold.of(context).showSnackBar(snackBar);
-          }).catchError((signUpError) {
-            final snackBar = SnackBar(
-                content: Text('Sign up failed: ${signUpError.message}'));
-            Scaffold.of(context).showSnackBar(snackBar);
-            print('Sign up failed');
-            print(signUpError);
-          });
-        }
-      });
-    }
-  }
-
   _login(BuildContext context) async {
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save();
-
       try {
         UsersClient usersClient = UsersClient(MobileApiClient());
         var user =
             await usersClient.login(_loginData.login, _loginData.password);
         globals.currentUser = user;
-        Navigator.pushNamed(context, '/chat_list').then((_) {
+        Navigator.of(context).pushReplacementNamed(ChatListPage.routeName).then((_) {
           globals.currentUser = null;
           globals.authToken = null;
         });
@@ -146,31 +131,6 @@ class _LoginPageState extends State<LoginPage> {
         print(e);
       }
     }
-  }
-
-  Future<bool> _showDialog(String username) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: new Text("Do you want to create user '$username' ?"),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text("Cancel"),
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-            ),
-            new FlatButton(
-              child: new Text("Ok"),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   void _clearUi() {

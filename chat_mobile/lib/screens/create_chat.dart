@@ -9,6 +9,9 @@ import 'package:chat_mobile/widgets/common_ui.dart';
 import 'package:chat_mobile/globals.dart' as globals;
 
 class CreateChatPage extends StatefulWidget {
+
+  static const String routeName = "/create-chat-screen";
+
   CreateChatPage({Key key, this.title}) : super(key: key);
   final String title;
 

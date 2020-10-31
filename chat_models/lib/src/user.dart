@@ -5,13 +5,15 @@ class User implements Model<UserId> {
   String name;
   String password;
   String email;
+  String firstName;
+  String lastName;
   String phone;
-  User({this.id, this.name, this.password,this.email,this.phone});
+  User({this.id, this.name, this.password, this.email, this.phone, this.firstName, this.lastName});
   factory User.fromJson(Map<String, dynamic> json) {
     if (json == null) return null;
     return User(
         id: UserId(json['id']), name: json['name'], password: json['password'],
-        email: json['email'], phone: json['phone']);
+        email: json['email'], phone: json['phone'], firstName: json['firstName'], lastName: json['lastName']);
   }
 
   Map<String, dynamic> get json => {
@@ -19,6 +21,8 @@ class User implements Model<UserId> {
         'name': name,
         'password': password,
         'email': email,
+        'firstName': firstName,
+        'lastName': lastName,
         'phone': phone
       }..removeWhere((key, value) => value == null);
 }

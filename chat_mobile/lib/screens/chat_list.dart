@@ -11,6 +11,9 @@ import 'package:chat_mobile/widgets/chat_content.dart';
 import 'package:chat_mobile/widgets/common_ui.dart';
 
 class ChatListPage extends StatefulWidget {
+
+  static const String routeName = "/chat-list-screen";
+
   ChatListPage({Key key, this.title, @required this.chatComponent})
       : super(key: key);
   final String title;
