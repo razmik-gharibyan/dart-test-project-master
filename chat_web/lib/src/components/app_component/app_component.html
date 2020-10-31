@@ -1,0 +1,16 @@
+<header class="material-header">
+  <div class="material-header-row">
+    <material-button icon class="material-drawer-button">
+      <material-icon icon="menu"></material-icon>
+    </material-button>
+    <span class="material-header-title">Simple Chat {{ session.currentUser?.name }}</span>
+    <div class="material-spacer"></div>
+    <nav *ngIf="session.currentUser == null" class="material-navigation">
+      <a [routerLink]="RoutePaths.signIn.toUrl()">Sign In</a>
+    </nav>
+    <nav *ngIf="session.currentUser != null" class="material-navigation">
+      <a [routerLink]="RoutePaths.signIn.toUrl()" (click)="signOut()">Sign Out</a>
+    </nav>
+  </div>
+</header>
+<router-outlet [routes] = "Routes.all"></router-outlet>

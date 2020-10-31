@@ -1,0 +1,55 @@
+POST http://localhost:3333/users
+Content-Type: application/json
+
+{
+  "name": "Кузьма",
+  "password": "12345"
+}
+###
+POST http://localhost:3333/users/login
+Content-Type: application/json
+
+{
+  "username": "Петя",
+  "password": "12345"
+}
+###
+GET  http://localhost:3333/users?name=
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiIl0sImV4cCI6MTU1MDU4OTU2OSwiaWF0IjoxNTUwNTg1OTY5LCJpc3MiOiJTaW1wbGUgQ2hhdCIsInBsZCI6eyJpZCI6IjVjNmJmNGI2MDNlOGQ5NThmNjFlYWIxOCIsIm5hbWUiOiLQktCw0YHRjyJ9LCJzdWIiOiI1YzZiZjRiNjAzZThkOTU4ZjYxZWFiMTgifQ.CGYjsefvhVd5VNKD8FmNK5Y1H289ws_XS1WtnRl2Tac
+
+###
+POST http://localhost:3333/chats
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiIl0sImV4cCI6MTU1MDU5MzI2NSwiaWF0IjoxNTUwNTg5NjY1LCJpc3MiOiJTaW1wbGUgQ2hhdCIsInBsZCI6eyJpZCI6IjVjNmJmNGI2MDNlOGQ5NThmNjFlYWIxOCIsIm5hbWUiOiLQktCw0YHRjyJ9LCJzdWIiOiI1YzZiZjRiNjAzZThkOTU4ZjYxZWFiMTgifQ.hki0yvartQDNdk2myoREZt2nMVMv5ii1PIt26otHYZo
+
+{
+  "members":[
+    {
+      "id": "5c6bf4b603e8d958f61eab18",
+      "name": "Вася"
+    },
+    {
+      "id": "5c6bf97fc198aaf8615a30a0",
+      "name": "Кузьма"
+    }
+  ]
+}
+###
+GET http://localhost:3333/chats
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiIl0sImV4cCI6MTU1MDU5NDEzMiwiaWF0IjoxNTUwNTkwNTMyLCJpc3MiOiJTaW1wbGUgQ2hhdCIsInBsZCI6eyJpZCI6IjVjNmJmNGI2MDNlOGQ5NThmNjFlYWIxOCIsIm5hbWUiOiLQktCw0YHRjyJ9LCJzdWIiOiI1YzZiZjRiNjAzZThkOTU4ZjYxZWFiMTgifQ.YKblzo1cfm817aa2dbyOmwAREBfPTyp1wIZTja_Kp-8
+###
+POST http://localhost:3333/chats/5c6c2107a9835ff7a54193af/messages
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiIl0sImV4cCI6MTU1MDYxMDk4NSwiaWF0IjoxNTUwNjA3Mzg1LCJpc3MiOiJTaW1wbGUgQ2hhdCIsInBsZCI6eyJpZCI6IjVjNmJmNGI2MDNlOGQ5NThmNjFlYWIxOCIsIm5hbWUiOiLQktCw0YHRjyJ9LCJzdWIiOiI1YzZiZjRiNjAzZThkOTU4ZjYxZWFiMTgifQ.0hk8lfUzvWWMzJAuXMLcpgUY0MrHFxNx50Jra8nXZfI
+
+{
+  "chat": "5c6c2107a9835ff7a54193af",
+  "author": {
+    "id": "5c6bf4b603e8d958f61eab18",
+    "name": "Вася"
+  },
+  "text": "Text of message"
+}
+###
+GET http://localhost:3333/chats/5c6c2107a9835ff7a54193af/messages
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiIl0sImV4cCI6MTU1MDYxMTk5MCwiaWF0IjoxNTUwNjA4MzkwLCJpc3MiOiJTaW1wbGUgQ2hhdCIsInBsZCI6eyJpZCI6IjVjNmJmMjhlNmEwZTc1ZTc1OGFhOTVkMyIsIm5hbWUiOiLQn9C10YLRjyJ9LCJzdWIiOiI1YzZiZjI4ZTZhMGU3NWU3NThhYTk1ZDMifQ.G27bxYPCcVdmXG3ae59139jUnkUMf2H5ObWzyvfGnGg

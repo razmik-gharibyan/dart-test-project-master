@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "chat_api_client"
+		},
+		{
+			"path": "chat_models"
+		},
+		{
+			"path": "chat_mobile"
+		},
+		{
+			"path": "chat_web"
+		},
+		{
+			"path": "chat_api"
+		}
+	]
+}

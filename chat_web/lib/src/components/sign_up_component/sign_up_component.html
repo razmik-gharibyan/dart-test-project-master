@@ -1,0 +1,18 @@
+<material-input
+    floatingLabel
+    type="text"
+    label="Name" [(ngModel)]="name"
+></material-input>
+<material-input
+    floatingLabel
+    type="password"
+    label="password"
+    [(ngModel)]="password"
+></material-input>
+<material-button
+    raised
+    (trigger)="signUp()"
+    [disabled]="name.isEmpty || password.isEmpty"
+>
+  Sign Up
+</material-button>

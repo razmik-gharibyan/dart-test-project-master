@@ -1,0 +1,26 @@
+<material-list>
+  <material-list-item
+    *ngFor="let chat of chats"
+    (trigger)="selectChat(chat.id)"
+  >
+    {{ getChatMembers(chat.id) }}
+  </material-list-item>
+</material-list>
+<material-fab raised class="red" (trigger)="showCreateChatDialog = true">
+  <material-icon icon="add"></material-icon>
+</material-fab>
+
+<modal [visible]="showCreateChatDialog">
+  <material-dialog class="basic-scrolling-dialog">
+    <h1 header>New chat</h1>
+    <users-list></users-list>
+    <div footer>
+      <material-button (trigger)="showCreateChatDialog = false">
+        Cancel
+      </material-button>
+      <material-button (trigger)="createChat()" [disabled]="usersList.selectedUsers.selectedValues.isEmpty">
+        Create
+      </material-button>
+    </div>
+  </material-dialog>
+</modal>

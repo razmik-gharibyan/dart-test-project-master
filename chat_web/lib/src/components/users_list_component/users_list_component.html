@@ -1,0 +1,9 @@
+<material-list>
+  <material-select-item
+      *ngFor="let user of users"
+      (trigger)="toggleSelection(user)"
+      [selected]="selectedUsers.isSelected(user)"
+  >
+    {{ user.name }}
+  </material-select-item>
+</material-list>

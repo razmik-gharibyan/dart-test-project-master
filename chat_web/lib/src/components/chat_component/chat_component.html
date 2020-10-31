@@ -1,0 +1,19 @@
+<material-button icon (trigger)="toChatList()">
+  <material-icon icon="keyboard_arrow_left"></material-icon>
+  Return to chat list
+</material-button>
+<material-list>
+  <material-list-item *ngFor="let message of messages">
+    <div class="message-head">
+      <span class="message-author">{{ message.author.name }}</span>
+      <span class="message-datetime"> {{ message.createdAt | date:"short"}}</span>
+    </div>
+    <div class="message-text">{{ message.text }}</div>
+  </material-list-item>
+</material-list>
+<material-input
+    multiline
+    [(ngModel)]="newMessageText"
+>
+</material-input>
+<material-button  (trigger)="send()">Send</material-button>

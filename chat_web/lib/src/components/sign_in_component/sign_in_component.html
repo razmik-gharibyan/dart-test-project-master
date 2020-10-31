@@ -1,0 +1,14 @@
+  <material-input
+      floatingLabel
+      type="text"
+      label="username"
+      [(ngModel)]="username"
+  ></material-input>
+  <material-input
+    floatingLabel
+    type="password"
+    label="password"
+    [(ngModel)]="password"
+  ></material-input>
+  <material-button raised (trigger)="signIn()">Sign In</material-button>
+  <a [routerLink]="RoutePaths.signUp.toUrl()">Sign Up</a>

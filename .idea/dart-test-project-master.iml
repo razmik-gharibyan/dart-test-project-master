@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/chat_api/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_api/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_api/build" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_api_client/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_api_client/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_api_client/build" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_mobile/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_mobile/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_mobile/build" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_models/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_models/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_models/build" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_web/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_web/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/chat_web/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Dart SDK" level="project" />
+    <orderEntry type="library" name="Dart Packages" level="project" />
+  </component>
+</module>
