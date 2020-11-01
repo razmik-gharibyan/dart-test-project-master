@@ -3,6 +3,11 @@ import 'package:chat_mobile/api/api_client.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:flutter/material.dart';
 
+import 'package:chat_mobile/globals.dart' as globals;
+
+import 'chat_component.dart';
+import 'chat_content.dart';
+
 class UserList extends StatefulWidget {
   @override
   _UserListState createState() => _UserListState();
@@ -10,7 +15,7 @@ class UserList extends StatefulWidget {
 
 class _UserListState extends State<UserList> {
 
-  List<User> _users = <User>[];
+  List<_SelectableUser> _users = <_SelectableUser>[];
 
   @override
   void initState() {
@@ -21,28 +26,40 @@ class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
-        itemBuilder: (ctx, index) => Container(
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Colors.lightBlueAccent,
-              child: Text(
-                _users[index].firstName == null || _users[index].lastName == null ? '' :
-                '${_users[index].firstName.substring(0)}${_users[index].lastName.substring(0)}',
-                style: TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.black87,
+      child: Stack(
+        children: [
+          ListView.builder(
+            itemBuilder: (ctx, index) => Container(
+              color: _users[index].isSelected ? Colors.blueGrey : Colors.transparent,
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Colors.lightBlueAccent,
+                  child: Text(
+                    _users[index].user.firstName == null || _users[index].user.lastName == null ? 'AA' :
+                    '${_users[index].user.firstName.substring(0)}${_users[index].user.lastName.substring(0)}',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.black87,
+                    ),
+                  ),
                 ),
+                title: Text(_users[index].user.name),
+                subtitle: Text(_users[index].user.email ?? ''),
+                onTap: () {
+                  setState(() {
+                    _users[index].isSelected = true;
+                  });
+                },
               ),
             ),
-            title: Text(_users[index].name),
-            subtitle: Text(_users[index].email ?? ''),
-            onTap: () {
-
-            },
+            itemCount: _users.length,
           ),
-        ),
-        itemCount: _users.length,
+          _users.firstWhere((element) => element.isSelected == true) != null ? FloatingActionButton(
+              onPressed: () {
+                _createChat();
+              }
+          ) : Container()
+        ],
       ),
     );
   }
@@ -50,12 +67,52 @@ class _UserListState extends State<UserList> {
   void _getUserData() async {
     try {
       final List<User> result = await UsersClient(MobileApiClient()).read({});
+      result.removeWhere((user) => user.id == globals.currentUser.id);
+      final List<_SelectableUser> userList = result.map((e) => _SelectableUser(user: e));
       setState(() {
-        _users = result;
+        _users = userList;
       });
     } on Exception catch (e) {
       print('Failed to get list of users');
       print(e);
     }
   }
+
+  void _createChat() async {
+    var _checkedCounterparts = _users
+        .where((checkableUser) => checkableUser.isSelected == true)
+        .map((checkableUser) => checkableUser.user)
+        .toList();
+    if (_checkedCounterparts.isNotEmpty) {
+      try {
+        ChatsClient chatsClient = ChatsClient(MobileApiClient());
+        Chat createdChat = await chatsClient.create(
+            Chat(members: _checkedCounterparts..add(globals.currentUser)));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => ChatContentPage(
+              chat: createdChat,
+              chatComponent: ChatComponentWidget.of(context).chatComponent,
+            ),
+          ),
+          result: true,
+        );
+      } on Exception catch (e) {
+        print('Chat creation failed');
+        print(e);
+      }
+    }
+  }
+
+}
+
+class _SelectableUser {
+  final User user;
+  bool isSelected;
+
+  _SelectableUser({
+    this.user,
+    this.isSelected = false,
+  });
 }
