@@ -28,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   _LoginData _loginData = new _LoginData();
   final TextEditingController _loginController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
+  bool _isLoading = true;
 
   String _validateLogin(String value) {
     if (value.length < 2) {
@@ -43,6 +44,16 @@ class _LoginPageState extends State<LoginPage> {
       return 'The Password must be at least 2 characters.';
     }
     return null;
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    if(_isLoading) {
+      _checkUser();
+      _isLoading = false;
+    }
   }
 
   @override
