@@ -27,6 +27,7 @@ class _UserListState extends State<UserList> {
             leading: CircleAvatar(
               backgroundColor: Colors.lightBlueAccent,
               child: Text(
+                _users[index].firstName == null || _users[index].lastName == null ? '' :
                 '${_users[index].firstName.substring(0)}${_users[index].lastName.substring(0)}',
                 style: TextStyle(
                   fontSize: 15.0,
@@ -35,7 +36,7 @@ class _UserListState extends State<UserList> {
               ),
             ),
             title: Text(_users[index].name),
-            subtitle: Text(_users[index].email),
+            subtitle: Text(_users[index].email ?? ''),
             onTap: () {
 
             },
