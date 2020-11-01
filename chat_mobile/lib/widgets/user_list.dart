@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:chat_api_client/chat_api_client.dart';
 import 'package:chat_mobile/api/api_client.dart';
 import 'package:chat_mobile/providers/chat_provider.dart';
 import 'package:chat_models/chat_models.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_mobile/globals.dart' as globals;
@@ -18,11 +21,15 @@ class UserList extends StatefulWidget {
 class _UserListState extends State<UserList> {
 
   List<_SelectableUser> _users = <_SelectableUser>[];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _getUserData();
+    if(_isLoading) {
+      _getUserData();
+      _isLoading = false;
+    }
   }
 
   @override
@@ -30,7 +37,8 @@ class _UserListState extends State<UserList> {
 
     var _chatProvider = Provider.of<ChatProvider>(context,listen: false);
 
-    return Container(
+    return _isLoading ?
+    Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator() : Container(
       child: Stack(
         children: [
           ListView.builder(

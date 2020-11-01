@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:chat_api_client/chat_api_client.dart';
 import 'package:chat_mobile/helpers/chat_helper.dart';
 import 'package:chat_mobile/providers/chat_provider.dart';
 import 'package:chat_mobile/screens/create_chat.dart';
 import 'package:chat_models/chat_models.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_mobile/api/api_client.dart';
@@ -30,18 +32,22 @@ class _ChatListPageState extends State<ChatListPage> {
   var _chats = <Chat>[];
   Set<ChatId> _unreadChats = HashSet<ChatId>();
   StreamSubscription<Set<ChatId>> _unreadMessagesSubscription;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    refreshChats();
-    _unreadMessagesSubscription = widget._chatComponent
-        .subscribeUnreadMessagesNotification((unreadChatIds) {
-      setState(() {
-        _unreadChats.clear();
-        _unreadChats.addAll(unreadChatIds);
+    if(_isLoading) {
+      refreshChats();
+      _unreadMessagesSubscription = widget._chatComponent
+          .subscribeUnreadMessagesNotification((unreadChatIds) {
+        setState(() {
+          _unreadChats.clear();
+          _unreadChats.addAll(unreadChatIds);
+        });
       });
-    });
+      _isLoading = false;
+    }
   }
 
   @override
@@ -53,7 +59,8 @@ class _ChatListPageState extends State<ChatListPage> {
   @override
   Widget build(BuildContext context) {
     var _chatProvider = Provider.of<ChatProvider>(context, listen: true);
-    return Container(
+    return _isLoading ?
+    Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator() : Container(
       child: Column(
           children: <Widget>[
             Expanded(
