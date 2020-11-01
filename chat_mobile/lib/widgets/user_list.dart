@@ -54,10 +54,11 @@ class _UserListState extends State<UserList> {
             ),
             itemCount: _users.length,
           ),
-          _users.firstWhere((element) => element.isSelected == true) != null ? FloatingActionButton(
-              onPressed: () {
-                _createChat();
-              }
+          _users.indexWhere((element) => element.isSelected == true) != -1 ? FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              _createChat();
+            }
           ) : Container()
         ],
       ),
