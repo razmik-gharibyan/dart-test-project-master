@@ -48,7 +48,10 @@ class _UserListState extends State<UserList> {
 
   void _getUserData() async {
     try {
-      _users = await UsersClient(MobileApiClient()).read({});
+      final List<User> result = await UsersClient(MobileApiClient()).read({});
+      setState(() {
+        _users = result;
+      });
     } on Exception catch (e) {
       print('Failed to get list of users');
       print(e);
