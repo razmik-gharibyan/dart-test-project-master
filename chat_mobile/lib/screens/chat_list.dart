@@ -3,6 +3,7 @@ import 'dart:collection';
 
 import 'package:chat_api_client/chat_api_client.dart';
 import 'package:chat_mobile/helpers/chat_helper.dart';
+import 'package:chat_mobile/providers/chat_provider.dart';
 import 'package:chat_mobile/screens/create_chat.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:chat_mobile/api/api_client.dart';
 import 'package:chat_mobile/widgets/chat_component.dart';
 import 'package:chat_mobile/widgets/chat_content.dart';
 import 'package:chat_mobile/widgets/common_ui.dart';
+import 'package:provider/provider.dart';
 
 class ChatListPage extends StatefulWidget {
 
@@ -50,40 +52,34 @@ class _ChatListPageState extends State<ChatListPage> {
 
   @override
   Widget build(BuildContext context) {
-    Iterable<Widget> listTiles =
-        _chats.map<Widget>((Chat chatItem) => _buildListTile(chatItem));
-    listTiles = ListTile.divideTiles(context: context, tiles: listTiles);
+    var _chatProvider = Provider.of<ChatProvider>(context, listen: true);
     return Container(
       child: Column(
           children: <Widget>[
             Expanded(
-              child: ListView(
-                children: listTiles.toList(),
+              child: ListView.builder(
+                itemBuilder: (ctx, index) => Container(
+                  child: ListTile(
+                    tileColor: _chatProvider.selectedUsers.contains(_chats[index]) ? Colors.lightBlueAccent : Colors.transparent,
+                    leading: _unreadChats.contains(_chats[index].id) ? const Icon(Icons.message) : null,
+                    title: Text(_chats[index].members.map((user) => user.name).join(", ")),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        new MaterialPageRoute(
+                          builder: (context) {
+                            return ChatContentPage(
+                              chat: _chats[index],
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                )
               ),
             ),
           ],
         ),
-    );
-  }
-
-  Widget _buildListTile(Chat chat) {
-    return Container(
-      child: ListTile(
-        leading:
-            _unreadChats.contains(chat.id) ? const Icon(Icons.message) : null,
-        title: Text(chat.members.map((user) => user.name).join(", ")),
-        onTap: () {
-          Navigator.of(context).push(
-            new MaterialPageRoute(
-              builder: (context) {
-                return ChatContentPage(
-                  chat: chat,
-                );
-              },
-            ),
-          );
-        },
-      ),
     );
   }
 

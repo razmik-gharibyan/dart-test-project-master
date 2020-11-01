@@ -86,7 +86,7 @@ class _ChatContentPageState extends State<ChatContentPage> {
           tooltip: 'New messages',
           color: Colors.greenAccent,
           onPressed: () {
-            Navigator.popUntil(context, ModalRoute.withName('/chat_list'));
+            Navigator.of(context).pop();
           }));
     }
     actions.add(LogoutButton());
@@ -95,6 +95,12 @@ class _ChatContentPageState extends State<ChatContentPage> {
       appBar: AppBar(
         title: Text(_title),
         actions: actions,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),

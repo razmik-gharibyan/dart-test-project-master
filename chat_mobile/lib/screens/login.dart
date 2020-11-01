@@ -120,8 +120,8 @@ class _LoginPageState extends State<LoginPage> {
             await usersClient.login(_loginData.login, _loginData.password);
         globals.currentUser = user;
         Navigator.of(context).pushReplacementNamed(MainScreen.routeName).then((_) {
-          globals.currentUser = null;
-          globals.authToken = null;
+          //globals.currentUser = null;
+          //globals.authToken = null;
         });
         _clearUi();
       } on Exception catch (e) {

@@ -1,9 +1,11 @@
 import 'package:chat_api_client/chat_api_client.dart';
 import 'package:chat_mobile/api/api_client.dart';
+import 'package:chat_mobile/providers/chat_provider.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_mobile/globals.dart' as globals;
+import 'package:provider/provider.dart';
 
 import 'chat_component.dart';
 import 'chat_content.dart';
@@ -25,6 +27,9 @@ class _UserListState extends State<UserList> {
 
   @override
   Widget build(BuildContext context) {
+
+    var _chatProvider = Provider.of<ChatProvider>(context,listen: false);
+
     return Container(
       child: Stack(
         children: [
@@ -46,6 +51,11 @@ class _UserListState extends State<UserList> {
                 title: Text(_users[index].user.name),
                 subtitle: Text(_users[index].user.email ?? ''),
                 onTap: () {
+                  var _selectedCounterParts = _users
+                      .where((selectableUser) => selectableUser.isSelected == true)
+                      .map((selectableUser) => selectableUser.user)
+                      .toList();
+                  _chatProvider.setSelectedUsers(_selectedCounterParts);
                   setState(() {
                     _users[index].isSelected = !_users[index].isSelected;
                   });
