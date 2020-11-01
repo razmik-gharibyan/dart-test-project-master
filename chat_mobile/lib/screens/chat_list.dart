@@ -62,7 +62,7 @@ class _ChatListPageState extends State<ChatListPage> {
   Widget build(BuildContext context) {
     var _chatProvider = Provider.of<ChatProvider>(context, listen: true);
     return _isLoading ?
-    Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator() : Container(
+    Center(child: Platform.isAndroid ?  CircularProgressIndicator() : CupertinoActivityIndicator())  : Container(
       child: Column(
           children: <Widget>[
             Expanded(

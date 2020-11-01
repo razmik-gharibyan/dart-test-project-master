@@ -40,7 +40,7 @@ class _UserListState extends State<UserList> {
     var _chatProvider = Provider.of<ChatProvider>(context,listen: false);
 
     return _isLoading ?
-    Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator() : Container(
+    Center(child: Platform.isAndroid ?  CircularProgressIndicator() : CupertinoActivityIndicator())  : Container(
       child: Stack(
         children: [
           ListView.builder(
