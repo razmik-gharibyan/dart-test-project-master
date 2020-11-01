@@ -27,28 +27,31 @@ class _MainScreenState extends State<MainScreen> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-          appBar: AppBar(
-            title: Text('Chat Application'),
-            actions: <Widget>[LogoutButton()],
-            automaticallyImplyLeading: false,
-            bottom: TabBar(
-              tabs: customTabList.map<Widget>((CustomTab tab) {
-                return Tab(
-                  text: tab.title,
-                  icon: Icon(tab.icon),
+    return DefaultTabController(
+      length: customTabList.length,
+      child: Scaffold(
+            appBar: AppBar(
+              title: Text('Chat Application'),
+              actions: <Widget>[LogoutButton()],
+              automaticallyImplyLeading: false,
+              bottom: TabBar(
+                tabs: customTabList.map<Widget>((CustomTab tab) {
+                  return Tab(
+                    text: tab.title,
+                    icon: Icon(tab.icon),
+                  );
+                }).toList()
+              ),
+            ),
+            body: TabBarView(
+              children: customTabList.map<Widget>((CustomTab tab) {
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: tab.tab,
                 );
               }).toList()
             ),
-          ),
-          body: TabBarView(
-            children: customTabList.map<Widget>((CustomTab tab) {
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: tab.tab,
-              );
-            }).toList()
-          ),
+      ),
     );
   }
 }
