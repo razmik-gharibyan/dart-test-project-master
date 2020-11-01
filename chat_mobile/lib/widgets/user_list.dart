@@ -28,7 +28,9 @@ class _UserListState extends State<UserList> {
     super.initState();
     if(_isLoading) {
       _getUserData();
-      _isLoading = false;
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 

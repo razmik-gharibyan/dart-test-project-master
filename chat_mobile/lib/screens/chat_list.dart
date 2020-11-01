@@ -46,7 +46,9 @@ class _ChatListPageState extends State<ChatListPage> {
           _unreadChats.addAll(unreadChatIds);
         });
       });
-      _isLoading = false;
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
