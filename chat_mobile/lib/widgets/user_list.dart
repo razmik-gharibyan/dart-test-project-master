@@ -47,18 +47,22 @@ class _UserListState extends State<UserList> {
                 subtitle: Text(_users[index].user.email ?? ''),
                 onTap: () {
                   setState(() {
-                    _users[index].isSelected = true;
+                    _users[index].isSelected = !_users[index].isSelected;
                   });
                 },
               ),
             ),
             itemCount: _users.length,
           ),
-          _users.indexWhere((element) => element.isSelected == true) != -1 ? FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () {
-              _createChat();
-            }
+          _users.indexWhere((element) => element.isSelected == true) != -1 ? Positioned(
+            right: 10.0,
+            bottom: 10.0,
+            child: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                _createChat();
+              }
+            ),
           ) : Container()
         ],
       ),
@@ -69,7 +73,7 @@ class _UserListState extends State<UserList> {
     try {
       final List<User> result = await UsersClient(MobileApiClient()).read({});
       result.removeWhere((user) => user.id == globals.currentUser.id);
-      final List<_SelectableUser> userList = result.map((e) => _SelectableUser(user: e));
+      final List<_SelectableUser> userList = result.map((e) => _SelectableUser(user: e)).toList();
       setState(() {
         _users = userList;
       });
