@@ -1,4 +1,5 @@
 import 'package:chat_mobile/screens/chat_list.dart';
+import 'package:chat_mobile/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:chat_api_client/chat_api_client.dart';
@@ -170,7 +171,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
              await usersClient.login(_signUpData.login, _signUpData.password);
              globals.currentUser = createdUser;
           _clearUi();
-          Navigator.of(context).pushReplacementNamed(ChatListPage.routeName);
+          Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
         }).catchError((signUpError) {
           final snackBar = SnackBar(
               content: Text('Sign up failed: ${signUpError.message}'));
@@ -184,6 +185,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void _clearUi() {
     _loginController.clear();
     _passwordController.clear();
+    _emailController.clear();
+    _firstNameController.clear();
+    _lastNameController.clear();
   }
 
 }

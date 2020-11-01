@@ -1,6 +1,6 @@
 import 'package:chat_api_client/chat_api_client.dart';
-import 'package:chat_mobile/screens/chat_list.dart';
-import 'package:chat_mobile/screens/sign_in_screen.dart';
+import 'package:chat_mobile/screens/main_screen.dart';
+import 'package:chat_mobile/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_mobile/api/api_client.dart';
@@ -94,10 +94,10 @@ class _LoginPageState extends State<LoginPage> {
                               _login(scaffoldContext);
                             }),
                         FlatButton(
-                          child: Text("Sign up"),
-                          onPressed: () {
-                           Navigator.of(context).pushReplacementNamed(SignUpScreen.routeName);
-                          },
+                            child: Text("Sign up"),
+                            onPressed: () {
+                              Navigator.of(context).pushReplacementNamed(SignUpScreen.routeName);
+                            },
                         ),
                       ],
                     ),
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
         var user =
             await usersClient.login(_loginData.login, _loginData.password);
         globals.currentUser = user;
-        Navigator.of(context).pushReplacementNamed(ChatListPage.routeName).then((_) {
+        Navigator.of(context).pushReplacementNamed(MainScreen.routeName).then((_) {
           globals.currentUser = null;
           globals.authToken = null;
         });

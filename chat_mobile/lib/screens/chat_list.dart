@@ -14,8 +14,6 @@ import 'package:chat_mobile/widgets/common_ui.dart';
 
 class ChatListPage extends StatefulWidget {
 
-  static const String routeName = "/chat-list-screen";
-
   ChatListPage({Key key, this.title})
       : super(key: key);
   final String title;
@@ -55,31 +53,16 @@ class _ChatListPageState extends State<ChatListPage> {
     Iterable<Widget> listTiles =
         _chats.map<Widget>((Chat chatItem) => _buildListTile(chatItem));
     listTiles = ListTile.divideTiles(context: context, tiles: listTiles);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[LogoutButton()],
-        automaticallyImplyLeading: false,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(CreateChatPage.routeName).then((resultValue) {
-            if (resultValue != null && resultValue is bool && resultValue) {
-              refreshChats();
-            }
-          });
-        },
-        child: Icon(Icons.add),
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView(
-              children: listTiles.toList(),
+    return Container(
+      child: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView(
+                children: listTiles.toList(),
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
     );
   }
 

@@ -20,4 +20,5 @@ class UsersClient extends ResourceClient<User> {
     print(json);
     return User.fromJson(json);
   }
+
 }

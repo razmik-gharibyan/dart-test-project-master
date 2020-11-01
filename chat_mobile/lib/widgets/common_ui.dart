@@ -1,3 +1,4 @@
+import 'package:chat_mobile/screens/login.dart';
 import 'package:flutter/material.dart';
 
 class LogoutButton extends StatelessWidget {
@@ -7,7 +8,7 @@ class LogoutButton extends StatelessWidget {
         icon: Icon(Icons.exit_to_app),
         tooltip: 'Logout',
         onPressed: () {
-          Navigator.popUntil(context, ModalRoute.withName('/'));
+          Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName, (route) => false);
         });
   }
 }

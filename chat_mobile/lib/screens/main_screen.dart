@@ -1,4 +1,6 @@
 import 'package:chat_mobile/screens/chat_list.dart';
+import 'package:chat_mobile/widgets/common_ui.dart';
+import 'package:chat_mobile/widgets/user_list.dart';
 import 'package:flutter/material.dart';
 
 class CustomTab {
@@ -8,9 +10,9 @@ class CustomTab {
   const CustomTab({this.title, this.icon, this.tab});
 }
 
-const List<CustomTab> customTabList = <CustomTab>[
-  CustomTab(title: 'Users', icon: Icons.group),
-  CustomTab(title: 'Chats', icon: Icons.chat_outlined)
+List<CustomTab> customTabList = <CustomTab>[
+  CustomTab(title: 'Users', icon: Icons.group, tab: UserList()),
+  CustomTab(title: 'Chats', icon: Icons.chat_outlined, tab: ChatListPage())
 ];
 
 class MainScreen extends StatefulWidget {
@@ -25,25 +27,28 @@ class _MainScreenState extends State<MainScreen> {
   
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        child: Scaffold(
+    return Scaffold(
           appBar: AppBar(
             title: Text('Chat Application'),
+            actions: <Widget>[LogoutButton()],
+            automaticallyImplyLeading: false,
             bottom: TabBar(
               tabs: customTabList.map<Widget>((CustomTab tab) {
                 return Tab(
                   text: tab.title,
                   icon: Icon(tab.icon),
                 );
-              })
+              }).toList()
             ),
           ),
           body: TabBarView(
-            children: [
-
-            ],
+            children: customTabList.map<Widget>((CustomTab tab) {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: tab.tab,
+              );
+            }).toList()
           ),
-        )
     );
   }
 }
