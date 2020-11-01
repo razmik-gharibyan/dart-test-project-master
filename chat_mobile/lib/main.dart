@@ -1,3 +1,4 @@
+import 'package:chat_mobile/helpers/chat_helper.dart';
 import 'package:chat_mobile/screens/sign_in_screen.dart';
 
 import 'widgets/chat_component.dart';
@@ -12,6 +13,7 @@ void main() => runApp(SimpleChatApp());
 
 class SimpleChatApp extends StatefulWidget {
   final ChatComponent _chatComponent = ChatComponent(globals.webSocketAddress);
+  final ChatHelper _chatHelper = ChatHelper();
 
   @override
   _SimpleChatAppState createState() => _SimpleChatAppState();
@@ -22,6 +24,7 @@ class _SimpleChatAppState extends State<SimpleChatApp> {
   void initState() {
     super.initState();
     widget._chatComponent.connect();
+    widget._chatHelper.chatComponent  = widget._chatComponent;
   }
 
   @override
@@ -45,7 +48,6 @@ class _SimpleChatAppState extends State<SimpleChatApp> {
           SignUpScreen.routeName: (ctx) => SignUpScreen(),
           ChatListPage.routeName: (ctx) => ChatListPage(
             title: 'Chat list',
-            chatComponent: widget._chatComponent,
           ),
           CreateChatPage.routeName: (ctx) => CreateChatPage(title: 'Create Chat'),
         },

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:chat_api_client/chat_api_client.dart';
+import 'package:chat_mobile/helpers/chat_helper.dart';
 import 'package:chat_mobile/screens/create_chat.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,11 @@ class ChatListPage extends StatefulWidget {
 
   static const String routeName = "/chat-list-screen";
 
-  ChatListPage({Key key, this.title, @required this.chatComponent})
+  ChatListPage({Key key, this.title})
       : super(key: key);
   final String title;
-  final ChatComponent chatComponent;
+
+  final ChatComponent _chatComponent = ChatHelper()?.chatComponent;
 
   @override
   _ChatListPageState createState() => _ChatListPageState();
@@ -33,7 +35,7 @@ class _ChatListPageState extends State<ChatListPage> {
   void initState() {
     super.initState();
     refreshChats();
-    _unreadMessagesSubscription = widget.chatComponent
+    _unreadMessagesSubscription = widget._chatComponent
         .subscribeUnreadMessagesNotification((unreadChatIds) {
       setState(() {
         _unreadChats.clear();
