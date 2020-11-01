@@ -58,6 +58,7 @@ class _ChatListPageState extends State<ChatListPage> {
           children: <Widget>[
             Expanded(
               child: ListView.builder(
+                itemCount: _chats.length,
                 itemBuilder: (ctx, index) => Container(
                   child: ListTile(
                     tileColor: _chatProvider.selectedUsers.contains(_chats[index]) ? Colors.lightBlueAccent : Colors.transparent,
