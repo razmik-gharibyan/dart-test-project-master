@@ -78,7 +78,6 @@ class _ChatListPageState extends State<ChatListPage> {
               builder: (context) {
                 return ChatContentPage(
                   chat: chat,
-                  chatComponent: ChatComponentWidget.of(context).chatComponent,
                 );
               },
             ),

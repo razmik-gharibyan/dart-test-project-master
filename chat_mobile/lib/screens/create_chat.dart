@@ -98,7 +98,6 @@ class _CreateChatPageState extends State<CreateChatPage> {
           MaterialPageRoute(
             builder: (BuildContext context) => ChatContentPage(
                   chat: createdChat,
-                  chatComponent: ChatComponentWidget.of(context).chatComponent,
                 ),
           ),
           result: true,
