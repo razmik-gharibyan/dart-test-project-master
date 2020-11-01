@@ -1,10 +1,12 @@
-import 'package:chat_mobile/screens/chat_list.dart';
 import 'package:chat_mobile/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:chat_api_client/chat_api_client.dart';
 import 'package:chat_mobile/api/api_client.dart';
+
 import 'package:chat_mobile/globals.dart' as globals;
+import 'package:chat_mobile/helpers/global_consts.dart' as consts;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatefulWidget {
 
@@ -73,6 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
     return null;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -170,6 +173,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             .then((createdUser) async {
              await usersClient.login(_signUpData.login, _signUpData.password);
              globals.currentUser = createdUser;
+             SharedPreferences prefs = await SharedPreferences.getInstance();
+             await prefs.setBool(consts.IS_LOGGED, true);
+             await prefs.setString(consts.TOKEN, globals.authToken);
+             await prefs.setString(consts.LOGIN, _signUpData.login);
+             await prefs.setString(consts.PASSWORD, _signUpData.password);
           _clearUi();
           Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
         }).catchError((signUpError) {

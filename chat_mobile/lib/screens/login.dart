@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'package:chat_mobile/api/api_client.dart';
 import 'package:chat_mobile/globals.dart' as globals;
+import 'package:chat_mobile/helpers/global_consts.dart' as consts;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -111,6 +113,30 @@ class _LoginPageState extends State<LoginPage> {
     ));
   }
 
+  void _checkUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.containsKey(consts.IS_LOGGED)) {
+      if(prefs.getBool(consts.IS_LOGGED)) {
+        // User is logged ,check token
+        globals.authToken = prefs.getString(consts.TOKEN);
+        UsersClient usersClient;
+        try {
+          usersClient = UsersClient(MobileApiClient());
+        } on Exception catch (e) {
+          print('Error while applying token');
+          print(e);
+          var user =
+              await usersClient.login(prefs.getString(consts.LOGIN), prefs.getString(consts.PASSWORD));
+          globals.currentUser = user;
+          await prefs.setBool(consts.IS_LOGGED, true);
+          await prefs.setString(consts.TOKEN, globals.authToken);
+          Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+          _clearUi();
+        }
+      }
+    }
+  }
+
   _login(BuildContext context) async {
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save();
@@ -119,6 +145,11 @@ class _LoginPageState extends State<LoginPage> {
         var user =
             await usersClient.login(_loginData.login, _loginData.password);
         globals.currentUser = user;
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool(consts.IS_LOGGED, true);
+        await prefs.setString(consts.TOKEN, globals.authToken);
+        await prefs.setString(consts.LOGIN, _loginData.login);
+        await prefs.setString(consts.PASSWORD, _loginData.password);
         Navigator.of(context).pushReplacementNamed(MainScreen.routeName).then((_) {
           //globals.currentUser = null;
           //globals.authToken = null;
