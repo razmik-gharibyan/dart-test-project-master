@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:chat_api_client/chat_api_client.dart';
+import 'package:chat_mobile/helpers/chat_helper.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -12,9 +13,8 @@ import 'common_ui.dart';
 import 'package:chat_mobile/globals.dart' as globals;
 
 class ChatContentPage extends StatefulWidget {
-  ChatContentPage({Key key, @required this.chat, @required this.chatComponent})
+  ChatContentPage({Key key, @required this.chat})
       : super(key: key);
-  final ChatComponent chatComponent;
   final Chat chat;
   final formatter = DateFormat('HH:mm');
 
@@ -25,6 +25,7 @@ class ChatContentPage extends StatefulWidget {
 class _ChatContentPageState extends State<ChatContentPage> {
   String _title;
   var _messages = <Message>[];
+  ChatComponent _chatComponent = ChatHelper().chatComponent;
   final _sendMessageTextController = TextEditingController();
   StreamSubscription<Message> _messagesSubscription;
   StreamSubscription<Set<ChatId>> _unreadMessagesSubscription;
@@ -40,13 +41,13 @@ class _ChatContentPageState extends State<ChatContentPage> {
     refreshChatContent();
 
     _messagesSubscription =
-        widget.chatComponent.subscribeMessages((receivedMessage) {
+        _chatComponent.subscribeMessages((receivedMessage) {
       setState(() {
         _messages.add(receivedMessage);
       });
     }, widget.chat.id);
 
-    _unreadMessagesSubscription = widget.chatComponent
+    _unreadMessagesSubscription = _chatComponent
         .subscribeUnreadMessagesNotification((unreadChatIds) {
       setState(() {
         _unreadChats.clear();

@@ -30,10 +30,10 @@ class _UserListState extends State<UserList> {
         children: [
           ListView.builder(
             itemBuilder: (ctx, index) => Container(
-              color: _users[index].isSelected ? Colors.blueGrey : Colors.transparent,
+              color: _users[index].isSelected ? Colors.lightBlueAccent : Colors.transparent,
               child: ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Colors.lightBlueAccent,
+                  backgroundColor: Colors.yellow,
                   child: Text(
                     _users[index].user.firstName == null || _users[index].user.lastName == null ? 'AA' :
                     '${_users[index].user.firstName.substring(0)}${_users[index].user.lastName.substring(0)}',
@@ -84,21 +84,21 @@ class _UserListState extends State<UserList> {
   }
 
   void _createChat() async {
-    var _checkedCounterparts = _users
-        .where((checkableUser) => checkableUser.isSelected == true)
-        .map((checkableUser) => checkableUser.user)
+    var _selectedCounterParts = _users
+        .where((selectableUser) => selectableUser.isSelected == true)
+        .map((selectableUser) => selectableUser.user)
         .toList();
-    if (_checkedCounterparts.isNotEmpty) {
+    if (_selectedCounterParts.isNotEmpty) {
       try {
         ChatsClient chatsClient = ChatsClient(MobileApiClient());
         Chat createdChat = await chatsClient.create(
-            Chat(members: _checkedCounterparts..add(globals.currentUser)));
+            Chat(members: _selectedCounterParts..add(globals.currentUser)));
+        print(createdChat.members);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) => ChatContentPage(
               chat: createdChat,
-              chatComponent: ChatComponentWidget.of(context).chatComponent,
             ),
           ),
           result: true,
