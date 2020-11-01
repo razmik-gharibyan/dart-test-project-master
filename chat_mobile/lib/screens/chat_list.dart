@@ -61,7 +61,7 @@ class _ChatListPageState extends State<ChatListPage> {
                 itemCount: _chats.length,
                 itemBuilder: (ctx, index) => Container(
                   child: ListTile(
-                    tileColor: _chatProvider.selectedUsers.contains(_chats[index]) ? Colors.lightBlueAccent : Colors.transparent,
+                    tileColor: _checkMatchingUsers(_chatProvider.selectedUsers, _chats[index].members) ? Colors.lightBlueAccent : Colors.transparent,
                     leading: _unreadChats.contains(_chats[index].id) ? const Icon(Icons.message) : null,
                     title: Text(_chats[index].members.map((user) => user.name).join(", ")),
                     onTap: () {
@@ -82,6 +82,14 @@ class _ChatListPageState extends State<ChatListPage> {
           ],
         ),
     );
+  }
+
+  bool _checkMatchingUsers(List<User> selectedUsers, List<User> chatUsers) {
+    bool found = false;
+    for(var user in chatUsers) {
+      return found = selectedUsers.contains(user);
+    }
+    return found;
   }
 
   void refreshChats() async {
