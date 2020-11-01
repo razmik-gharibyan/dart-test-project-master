@@ -53,6 +53,7 @@ class _UserListState extends State<UserList> {
                 onTap: () {
                   var _selectedCounterParts = _users
                       .where((selectableUser) => selectableUser.isSelected == true)
+                      .where((selectableUser) => selectableUser.user.id != globals.currentUser.id)
                       .map((selectableUser) => selectableUser.user)
                       .toList();
                   _chatProvider.setSelectedUsers(_selectedCounterParts);
