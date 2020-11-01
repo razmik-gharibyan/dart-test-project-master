@@ -63,34 +63,41 @@ class _ChatListPageState extends State<ChatListPage> {
     var _chatProvider = Provider.of<ChatProvider>(context, listen: true);
     return _isLoading ?
     Center(child: Platform.isAndroid ?  CircularProgressIndicator() : CupertinoActivityIndicator())  : Container(
-      child: Column(
-          children: <Widget>[
-            Expanded(
-              child: ListView.builder(
-                itemCount: _chats.length,
-                itemBuilder: (ctx, index) => Container(
-                  child: ListTile(
-                    tileColor: _checkMatchingUsers(_chatProvider.selectedUsers, _chats[index].members) ? Colors.lightBlueAccent : Colors.transparent,
-                    leading: _unreadChats.contains(_chats[index].id) ? const Icon(Icons.message) : null,
-                    title: Text(_chats[index].members.map((user) => user.name).join(", ")),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        new MaterialPageRoute(
-                          builder: (context) {
-                            return ChatContentPage(
-                              chat: _chats[index],
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                )
+      child: RefreshIndicator(
+        onRefresh: _updateData,
+        child: Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _chats.length,
+                  itemBuilder: (ctx, index) => Container(
+                    child: ListTile(
+                      tileColor: _checkMatchingUsers(_chatProvider.selectedUsers, _chats[index].members) ? Colors.lightBlueAccent : Colors.transparent,
+                      leading: _unreadChats.contains(_chats[index].id) ? const Icon(Icons.message) : null,
+                      title: Text(_chats[index].members.map((user) => user.name).join(", ")),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          new MaterialPageRoute(
+                            builder: (context) {
+                              return ChatContentPage(
+                                chat: _chats[index],
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+      ),
     );
+  }
+
+  Future _updateData() async {
+    refreshChats();
   }
 
   bool _checkMatchingUsers(List<User> selectedUsers, List<User> chatUsers) {

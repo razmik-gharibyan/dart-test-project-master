@@ -41,53 +41,60 @@ class _UserListState extends State<UserList> {
 
     return _isLoading ?
     Center(child: Platform.isAndroid ?  CircularProgressIndicator() : CupertinoActivityIndicator())  : Container(
-      child: Stack(
-        children: [
-          ListView.builder(
-            itemBuilder: (ctx, index) => Container(
-              color: _users[index].isSelected ? Colors.lightBlueAccent : Colors.transparent,
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.yellow,
-                  child: Text(
-                    _users[index].user.firstName == null || _users[index].user.lastName == null ? 'AA' :
-                    '${_users[index].user.firstName.substring(0)}${_users[index].user.lastName.substring(0)}',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.black87,
+      child: RefreshIndicator(
+        onRefresh: _updateData,
+        child: Stack(
+          children: [
+            ListView.builder(
+              itemBuilder: (ctx, index) => Container(
+                color: _users[index].isSelected ? Colors.lightBlueAccent : Colors.transparent,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.yellow,
+                    child: Text(
+                      _users[index].user.firstName == null || _users[index].user.lastName == null ? 'AA' :
+                      '${_users[index].user.firstName.substring(0)}${_users[index].user.lastName.substring(0)}',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.black87,
+                      ),
                     ),
                   ),
+                  title: Text(_users[index].user.name),
+                  subtitle: Text(_users[index].user.email ?? ''),
+                  onTap: () {
+                    var _selectedCounterParts = _users
+                        .where((selectableUser) => selectableUser.isSelected == true)
+                        .where((selectableUser) => selectableUser.user.id != globals.currentUser.id)
+                        .map((selectableUser) => selectableUser.user)
+                        .toList();
+                    _chatProvider.setSelectedUsers(_selectedCounterParts);
+                    setState(() {
+                      _users[index].isSelected = !_users[index].isSelected;
+                    });
+                  },
                 ),
-                title: Text(_users[index].user.name),
-                subtitle: Text(_users[index].user.email ?? ''),
-                onTap: () {
-                  var _selectedCounterParts = _users
-                      .where((selectableUser) => selectableUser.isSelected == true)
-                      .where((selectableUser) => selectableUser.user.id != globals.currentUser.id)
-                      .map((selectableUser) => selectableUser.user)
-                      .toList();
-                  _chatProvider.setSelectedUsers(_selectedCounterParts);
-                  setState(() {
-                    _users[index].isSelected = !_users[index].isSelected;
-                  });
-                },
               ),
+              itemCount: _users.length,
             ),
-            itemCount: _users.length,
-          ),
-          _users.indexWhere((element) => element.isSelected == true) != -1 ? Positioned(
-            right: 10.0,
-            bottom: 10.0,
-            child: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {
-                _createChat();
-              }
-            ),
-          ) : Container()
-        ],
+            _users.indexWhere((element) => element.isSelected == true) != -1 ? Positioned(
+              right: 10.0,
+              bottom: 10.0,
+              child: FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: () {
+                  _createChat();
+                }
+              ),
+            ) : Container()
+          ],
+        ),
       ),
     );
+  }
+
+  Future _updateData() async {
+    _getUserData();
   }
 
   void _getUserData() async {
