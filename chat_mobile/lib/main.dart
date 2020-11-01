@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import 'widgets/chat_component.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/chat_list.dart';
-import 'screens/create_chat.dart';
 import 'globals.dart' as globals;
 import 'screens/login.dart';
 
@@ -54,7 +52,6 @@ class _SimpleChatAppState extends State<SimpleChatApp> {
             LoginPage.routeName: (ctx) => LoginPage(),
             SignUpScreen.routeName: (ctx) => SignUpScreen(),
             MainScreen.routeName: (ctx) => MainScreen(),
-            CreateChatPage.routeName: (ctx) => CreateChatPage(title: 'Create Chat'),
           },
         ),
       ),

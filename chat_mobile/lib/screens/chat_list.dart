@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:chat_api_client/chat_api_client.dart';
 import 'package:chat_mobile/helpers/chat_helper.dart';
 import 'package:chat_mobile/providers/chat_provider.dart';
-import 'package:chat_mobile/screens/create_chat.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:chat_mobile/api/api_client.dart';
 import 'package:chat_mobile/widgets/chat_component.dart';
 import 'package:chat_mobile/widgets/chat_content.dart';
-import 'package:chat_mobile/widgets/common_ui.dart';
 import 'package:provider/provider.dart';
 
 class ChatListPage extends StatefulWidget {

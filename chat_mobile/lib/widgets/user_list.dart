@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:chat_mobile/globals.dart' as globals;
 import 'package:provider/provider.dart';
 
-import 'chat_component.dart';
 import 'chat_content.dart';
 
 class UserList extends StatefulWidget {
