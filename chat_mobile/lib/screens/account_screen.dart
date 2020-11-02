@@ -132,8 +132,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     CircleAvatar(
                       backgroundColor: Colors.yellow,
                       child: Text(
-                        _accountData.firstName == null || _accountData.lastName == null ? 'AA' :
-                        '${_accountData.firstName[0]}${_accountData.lastName[0]}',
+                        '${_accountData.firstName.isNotEmpty ? _accountData.firstName[0] : 'A'}'
+                        '${_accountData.lastName.isNotEmpty ? _accountData.lastName[0] : 'A'}',
                         style: TextStyle(
                           fontSize: 15.0,
                           color: Colors.black87,
@@ -286,5 +286,6 @@ class _AccountScreenState extends State<AccountScreen> {
     _emailController.clear();
     _firstNameController.clear();
     _lastNameController.clear();
+    _phoneController.clear();
   }
 }
