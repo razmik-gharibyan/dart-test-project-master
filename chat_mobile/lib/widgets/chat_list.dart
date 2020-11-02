@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:chat_mobile/api/api_client.dart';
 import 'package:chat_mobile/widgets/chat_component.dart';
-import 'package:chat_mobile/widgets/chat_content.dart';
+import 'package:chat_mobile/screens/chat_content.dart';
 import 'package:provider/provider.dart';
 
 class ChatListPage extends StatefulWidget {

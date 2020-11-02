@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:chat_mobile/api/api_client.dart';
-import 'chat_component.dart';
-import 'common_ui.dart';
+import 'package:chat_mobile/widgets/chat_component.dart';
+import 'package:chat_mobile/widgets/common_ui.dart';
 import 'package:chat_mobile/globals.dart' as globals;
 
 class ChatContentPage extends StatefulWidget {
