@@ -253,7 +253,7 @@ class _AccountScreenState extends State<AccountScreen> {
         _isLoading = true;
       });
       UsersClient usersClient = UsersClient(MobileApiClient());
-      usersClient
+      await usersClient
           .update(
           User(password: _accountData.password, email: _accountData.email,
               firstName: _accountData.firstName, lastName: _accountData.lastName, phone: _accountData.phone ))
