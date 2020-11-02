@@ -1,4 +1,4 @@
-import 'package:chat_mobile/screens/chat_list.dart';
+import 'package:chat_mobile/widgets/chat_list.dart';
 import 'package:chat_mobile/widgets/common_ui.dart';
 import 'package:chat_mobile/widgets/user_list.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,8 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
             appBar: AppBar(
               title: Text('Chat Application'),
-              actions: <Widget>[LogoutButton()],
+              leading: AccountButton(),
+              actions: <Widget>[LogoutButton(),],
               automaticallyImplyLeading: false,
               bottom: TabBar(
                 tabs: customTabList.map<Widget>((CustomTab tab) {

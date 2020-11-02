@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chat_api_client/chat_api_client.dart';
+import 'package:chat_mobile/helpers/user_helper.dart';
 import 'package:chat_mobile/screens/main_screen.dart';
 import 'package:chat_mobile/screens/sign_up_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   _LoginData _loginData = new _LoginData();
   final TextEditingController _loginController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
+  final UserHelper _userHelper = UserHelper();
   bool _isLoading = true;
 
   String _validateLogin(String value) {
@@ -63,11 +65,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(body: Builder(
       builder: (BuildContext scaffoldContext) {
-        return _isLoading ?
-        Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator() : Container(
+        return Container(
           padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: Form(
+            child: _isLoading ?
+            Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator() : Form(
               key: this._formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -163,6 +165,7 @@ class _LoginPageState extends State<LoginPage> {
         var user =
             await usersClient.login(_loginData.login, _loginData.password);
         globals.currentUser = user;
+        _userHelper.setUser(user);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool(consts.IS_LOGGED, true);
         await prefs.setString(consts.TOKEN, globals.authToken);

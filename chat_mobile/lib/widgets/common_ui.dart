@@ -1,3 +1,4 @@
+import 'package:chat_mobile/screens/account_screen.dart';
 import 'package:chat_mobile/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,18 @@ class LogoutButton extends StatelessWidget {
             await prefs.setBool(consts.IS_LOGGED, false);
           }
           Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName, (route) => false);
+        });
+  }
+}
+
+class AccountButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        icon: Icon(Icons.person_outline),
+        tooltip: 'Account',
+        onPressed: () {
+          Navigator.of(context).pushNamedAndRemoveUntil(AccountScreen.routeName, (route) => false);
         });
   }
 }

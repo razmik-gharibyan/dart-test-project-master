@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_mobile/helpers/user_helper.dart';
 import 'package:chat_mobile/screens/main_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
+  final UserHelper _userHelper = UserHelper();
   bool _isLoading = false;
 
   String _validateLogin(String value) {
@@ -84,11 +86,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(body: Builder(
       builder: (BuildContext scaffoldContext) {
-        return _isLoading ?
-        Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator() : Container(
+        return Container(
           padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: Form(
+            child: _isLoading ?
+            Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator() : Form(
               key: this._formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -178,7 +180,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             User(name: _signUpData.login, password: _signUpData.password, email: _signUpData.email,
                 firstName: _signUpData.firstName, lastName: _signUpData.lastName ))
             .then((createdUser) async {
-             await usersClient.login(_signUpData.login, _signUpData.password);
+             var user = await usersClient.login(_signUpData.login, _signUpData.password);
+             _userHelper.setUser(user);
              globals.currentUser = createdUser;
              SharedPreferences prefs = await SharedPreferences.getInstance();
              await prefs.setBool(consts.IS_LOGGED, true);

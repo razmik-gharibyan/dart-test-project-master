@@ -52,7 +52,7 @@ class _UserListState extends State<UserList> {
                     backgroundColor: Colors.yellow,
                     child: Text(
                       _users[index].user.firstName == null || _users[index].user.lastName == null ? 'AA' :
-                      '${_users[index].user.firstName.substring(0)}${_users[index].user.lastName.substring(0)}',
+                      '${_users[index].user.firstName[0]}${_users[index].user.lastName[0]}',
                       style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.black87,

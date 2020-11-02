@@ -1,5 +1,6 @@
 import 'package:chat_mobile/helpers/chat_helper.dart';
 import 'package:chat_mobile/providers/chat_provider.dart';
+import 'package:chat_mobile/screens/account_screen.dart';
 import 'package:chat_mobile/screens/main_screen.dart';
 import 'package:chat_mobile/screens/sign_up_screen.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +53,7 @@ class _SimpleChatAppState extends State<SimpleChatApp> {
             LoginPage.routeName: (ctx) => LoginPage(),
             SignUpScreen.routeName: (ctx) => SignUpScreen(),
             MainScreen.routeName: (ctx) => MainScreen(),
+            AccountScreen.routeName: (ctx) => AccountScreen(),
           },
         ),
       ),
