@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:chat_api_client/chat_api_client.dart';
 import 'package:chat_mobile/screens/main_screen.dart';
 import 'package:chat_mobile/screens/sign_up_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_mobile/api/api_client.dart';
@@ -60,7 +63,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(body: Builder(
       builder: (BuildContext scaffoldContext) {
-        return Container(
+        return _isLoading ?
+        Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator() : Container(
           padding: const EdgeInsets.all(20.0),
           child: Center(
             child: Form(
@@ -152,6 +156,9 @@ class _LoginPageState extends State<LoginPage> {
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save();
       try {
+        setState(() {
+          _isLoading = true;
+        });
         UsersClient usersClient = UsersClient(MobileApiClient());
         var user =
             await usersClient.login(_loginData.login, _loginData.password);
@@ -161,6 +168,9 @@ class _LoginPageState extends State<LoginPage> {
         await prefs.setString(consts.TOKEN, globals.authToken);
         await prefs.setString(consts.LOGIN, _loginData.login);
         await prefs.setString(consts.PASSWORD, _loginData.password);
+        setState(() {
+          _isLoading = false;
+        });
         Navigator.of(context).pushReplacementNamed(MainScreen.routeName).then((_) {
           //globals.currentUser = null;
           //globals.authToken = null;
@@ -171,6 +181,9 @@ class _LoginPageState extends State<LoginPage> {
         Scaffold.of(context).showSnackBar(snackBar);
         print('Login failed');
         print(e);
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }

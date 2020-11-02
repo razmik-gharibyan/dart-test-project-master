@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:chat_mobile/screens/main_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:chat_api_client/chat_api_client.dart';
@@ -33,6 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
+  bool _isLoading = false;
 
   String _validateLogin(String value) {
     if (value.length < 2) {
@@ -76,12 +80,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return null;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Builder(
       builder: (BuildContext scaffoldContext) {
-        return Container(
+        return _isLoading ?
+        Platform.isAndroid ? CircularProgressIndicator() : CupertinoActivityIndicator() : Container(
           padding: const EdgeInsets.all(20.0),
           child: Center(
             child: Form(
@@ -165,6 +169,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   _signUp(BuildContext context) async {
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save();
+      setState(() {
+        _isLoading = true;
+      });
         UsersClient usersClient = UsersClient(MobileApiClient());
         usersClient
             .create(
@@ -178,14 +185,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
              await prefs.setString(consts.TOKEN, globals.authToken);
              await prefs.setString(consts.LOGIN, _signUpData.login);
              await prefs.setString(consts.PASSWORD, _signUpData.password);
-          _clearUi();
+          setState(() {
+            _isLoading = false;
+          });
           Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+          _clearUi();
         }).catchError((signUpError) {
           final snackBar = SnackBar(
               content: Text('Sign up failed: ${signUpError.message}'));
           Scaffold.of(context).showSnackBar(snackBar);
           print('Sign up failed');
           print(signUpError);
+          setState(() {
+            _isLoading = false;
+          });
       });
     }
   }
