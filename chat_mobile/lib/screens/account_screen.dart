@@ -129,6 +129,9 @@ class _AccountScreenState extends State<AccountScreen> {
                           fontSize: 20
                       ),
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     CircleAvatar(
                       backgroundColor: Colors.yellow,
                       child: Text(
@@ -143,7 +146,6 @@ class _AccountScreenState extends State<AccountScreen> {
                     Text(
                       _accountData.login,
                       style: TextStyle(
-                        color: Colors.yellow,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -193,7 +195,6 @@ class _AccountScreenState extends State<AccountScreen> {
                       enabled: _enableEdit,
                       controller: _phoneController,
                       keyboardType: TextInputType.number,
-                      validator: this._validatePhoneNumber,
                       onSaved: (String value) {
                         this._accountData.phone = value;
                       },
