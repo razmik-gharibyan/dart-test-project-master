@@ -28,7 +28,7 @@ class AccountButton extends StatelessWidget {
         icon: Icon(Icons.person_outline),
         tooltip: 'Account',
         onPressed: () {
-          Navigator.of(context).pushNamedAndRemoveUntil(AccountScreen.routeName, (route) => false);
+          Navigator.of(context).pushNamed(AccountScreen.routeName);
         });
   }
 }
