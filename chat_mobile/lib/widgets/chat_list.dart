@@ -101,7 +101,7 @@ class _ChatListPageState extends State<ChatListPage> {
   bool _checkMatchingUsers(List<User> selectedUsers, List<User> chatUsers) {
     bool found = false;
     for(var user in chatUsers) {
-      found = selectedUsers.map((e) => e.name == user.name).toList().isNotEmpty;
+      found = selectedUsers.where((e) => e.name == user.name).toList().isNotEmpty;
       if(found) break;
     }
     return found;
