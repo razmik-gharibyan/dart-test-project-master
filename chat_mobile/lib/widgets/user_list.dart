@@ -62,15 +62,15 @@ class _UserListState extends State<UserList> {
                   title: Text(_users[index].user.name),
                   subtitle: Text(_users[index].user.email ?? ''),
                   onTap: () {
+                    setState(() {
+                      _users[index].isSelected = !_users[index].isSelected;
+                    });
                     var _selectedCounterParts = _users
                         .where((selectableUser) => selectableUser.isSelected == true)
                         .where((selectableUser) => selectableUser.user.id != globals.currentUser.id)
                         .map((selectableUser) => selectableUser.user)
                         .toList();
                     _chatProvider.setSelectedUsers(_selectedCounterParts);
-                    setState(() {
-                      _users[index].isSelected = !_users[index].isSelected;
-                    });
                   },
                 ),
               ),
