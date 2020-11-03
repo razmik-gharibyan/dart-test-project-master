@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _loginController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
   final UserHelper _userHelper = UserHelper();
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   String _validateLogin(String value) {
     if (value.length < 2) {
@@ -55,10 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    if(_isLoading) {
-      _checkUser();
-      _isLoading = false;
-    }
+    _checkUser();
   }
 
   @override
@@ -162,6 +159,7 @@ class _LoginPageState extends State<LoginPage> {
           _isLoading = true;
         });
         UsersClient usersClient = UsersClient(MobileApiClient());
+        //TODO send token to endpoint to see if it's expired, then generate new token
         var user =
             await usersClient.login(_loginData.login, _loginData.password);
         globals.currentUser = user;
