@@ -240,10 +240,15 @@ class _AccountScreenState extends State<AccountScreen> {
   void _userToAccountData(User user) {
     _accountData.login = user.name ?? '';
     _accountData.password = user.password ?? '';
+    _passwordController.text = _accountData.password;
     _accountData.email = user.email ?? '';
+    _emailController.text = _accountData.email;
     _accountData.firstName = user.firstName ?? '';
+    _firstNameController.text = _accountData.firstName;
     _accountData.lastName = user.lastName ?? '';
+    _lastNameController.text = _accountData.lastName;
     _accountData.phone = user.phone ?? '';
+    _phoneController.text = _accountData.phone;
   }
 
   _signUp(BuildContext context) async {
