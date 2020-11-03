@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:chat_models/chat_models.dart';
 import 'package:flutter/widgets.dart';
+import 'package:notifications/notifications.dart';
 
 typedef void NotificationCallback<T>(T valueObject);
 
