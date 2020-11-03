@@ -5,7 +5,6 @@ import 'package:chat_mobile/widgets/chat_list.dart';
 import 'package:chat_mobile/widgets/common_ui.dart';
 import 'package:chat_mobile/widgets/user_list.dart';
 import 'package:flutter/material.dart';
-import 'package:notifications/notifications.dart';
 
 class CustomTab {
   final String title;
@@ -28,35 +27,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
-  // notification package
-  Notifications _notifications;
-  StreamSubscription _subscription;
-
-  void onData(NotificationEvent event) {
-    print(event.toString());
-  }
-
-  void startListening() {
-    _notifications = new Notifications();
-    try {
-      _subscription = _notifications.notificationStream.listen(onData);
-    } on NotificationException catch (exception) {
-      print(exception);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    startListening();
-  }
-
-  @override
-  void dispose() {
-    _subscription.cancel();
-    super.dispose();
-  }
   
   @override
   Widget build(BuildContext context) {
