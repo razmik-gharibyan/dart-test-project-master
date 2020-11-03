@@ -25,12 +25,7 @@ class _UserListState extends State<UserList> {
   @override
   void initState() {
     super.initState();
-    if(_isLoading) {
-      _getUserData();
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    _getUserData();
   }
 
   @override
@@ -103,6 +98,7 @@ class _UserListState extends State<UserList> {
       final List<_SelectableUser> userList = result.map((e) => _SelectableUser(user: e)).toList();
       setState(() {
         _users = userList;
+        _isLoading = false;
       });
     } on Exception catch (e) {
       print('Failed to get list of users');

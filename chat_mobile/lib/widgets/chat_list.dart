@@ -35,7 +35,6 @@ class _ChatListPageState extends State<ChatListPage> {
   @override
   void initState() {
     super.initState();
-    if(_isLoading) {
       refreshChats();
       _unreadMessagesSubscription = widget._chatComponent
           .subscribeUnreadMessagesNotification((unreadChatIds) {
@@ -44,10 +43,6 @@ class _ChatListPageState extends State<ChatListPage> {
           _unreadChats.addAll(unreadChatIds);
         });
       });
-      setState(() {
-        _isLoading = false;
-      });
-    }
   }
 
   @override
@@ -112,6 +107,7 @@ class _ChatListPageState extends State<ChatListPage> {
       List<Chat> found = await ChatsClient(MobileApiClient()).read({});
       setState(() {
         _chats = found;
+        _isLoading = false;
       });
     } on Exception catch (e) {
       print('Failed to get list of chats');
