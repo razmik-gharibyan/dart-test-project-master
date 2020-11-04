@@ -116,15 +116,14 @@ class _UserListState extends State<UserList> {
         ChatsClient chatsClient = ChatsClient(MobileApiClient());
         Chat createdChat = await chatsClient.create(
             Chat(members: _selectedCounterParts..add(globals.currentUser)));
-        print(createdChat.members);
-        Navigator.pushReplacement(
+            print(createdChat.members);
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) => ChatContentPage(
               chat: createdChat,
             ),
           ),
-          result: true,
         );
       } on Exception catch (e) {
         print('Chat creation failed');
