@@ -26,6 +26,7 @@ class _SignUpData {
   String email = '';
   String firstName = '';
   String lastName = '';
+  String phone = '';
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
@@ -37,6 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final UserHelper _userHelper = UserHelper();
   bool _isLoading = false;
 
@@ -78,6 +80,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (value.length < 2) {
       // check last name rules here
       return 'First name should be at least 2 characters.';
+    }
+    return null;
+  }
+
+  String _validatePhone(String value) {
+    if (value.length < 9) {
+      // check login rules here
+      return 'Phone number should be at least 9 characters.';
     }
     return null;
   }
@@ -150,6 +160,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: new InputDecoration(
                         hintText: 'Last name', labelText: 'Enter your last name'),
                   ),
+                  TextFormField(
+                    controller: _phoneController,
+                    validator: this._validatePhone,
+                    onSaved: (String value) {
+                      this._signUpData.phone = value;
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'Phone (Optional)', labelText: 'Enter your phone number'),
+                  ),
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     child:
@@ -178,7 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         usersClient
             .create(
             User(name: _signUpData.login, password: _signUpData.password, email: _signUpData.email,
-                firstName: _signUpData.firstName, lastName: _signUpData.lastName ))
+                firstName: _signUpData.firstName, lastName: _signUpData.lastName, phone: _signUpData.phone))
             .then((createdUser) async {
              var user = await usersClient.login(_signUpData.login, _signUpData.password);
              _userHelper.setUser(user);
@@ -212,6 +231,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _emailController.clear();
     _firstNameController.clear();
     _lastNameController.clear();
+    _phoneController.clear();
   }
 
 }
