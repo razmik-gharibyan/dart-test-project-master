@@ -1,6 +1,4 @@
-import 'package:chat_mobile/bloc/chat_bloc.dart';
 import 'package:chat_mobile/helpers/chat_helper.dart';
-import 'package:chat_mobile/providers/bloc_provider.dart';
 import 'package:chat_mobile/providers/chat_provider.dart';
 import 'package:chat_mobile/screens/account_screen.dart';
 import 'package:chat_mobile/screens/main_screen.dart';
@@ -39,9 +37,7 @@ class _SimpleChatAppState extends State<SimpleChatApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      bloc: ChatBloc(),
-      child: ChatComponentWidget(
+    return ChatComponentWidget(
         widget._chatComponent,
         MultiProvider(
           providers: [
@@ -61,7 +57,6 @@ class _SimpleChatAppState extends State<SimpleChatApp> {
             },
           ),
         ),
-      ),
     );
   }
 }
