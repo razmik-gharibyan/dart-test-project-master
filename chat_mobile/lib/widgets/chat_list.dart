@@ -60,7 +60,10 @@ class _ChatListPageState extends State<ChatListPage> {
         onRefresh: _updateData,
         child: Column(
             children: <Widget>[
-              Expanded(
+              _chats.isEmpty ?
+              Center(
+                child: Text('You do not have chats'),
+              ) : Expanded(
                 child: ListView.builder(
                   itemCount: _chats.length,
                   itemBuilder: (ctx, index) => Container(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chat_mobile/helpers/user_helper.dart';
+import 'package:chat_mobile/screens/login.dart';
 import 'package:chat_mobile/screens/main_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -176,6 +177,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: Text("Sign Up"),
                           onPressed: () {
                             _signUp(scaffoldContext);
+                        }),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child:
+                    RaisedButton(
+                        child: Text(
+                            "back to login",
+                          style: TextStyle(
+                            fontSize: 9,
+                            color: Colors.lightBlueAccent
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(scaffoldContext).pushReplacementNamed(LoginPage.routeName);
                         }),
                   ),
                 ],
