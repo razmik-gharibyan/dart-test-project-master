@@ -136,8 +136,17 @@ class _LoginPageState extends State<LoginPage> {
         UsersClient usersClient;
         try {
           usersClient = UsersClient(MobileApiClient());
+          //TODO send token to endpoint to see if it's expired, if token is expired then catch thrown
+          //TODO exception and try to login user with login and password from saved sharedPreferences
+          // I consider that token is never expired so if user still logged in then stay logged in
+          var user =
+              await usersClient.login(prefs.getString(consts.LOGIN), prefs.getString(consts.PASSWORD));
+          globals.currentUser = user;
+          await prefs.setString(consts.TOKEN, globals.authToken);
+          Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+          _clearUi();
         } on Exception catch (e) {
-          print('Error while applying token');
+          print('Error token is expired');
           print(e);
           var user =
               await usersClient.login(prefs.getString(consts.LOGIN), prefs.getString(consts.PASSWORD));
@@ -159,7 +168,6 @@ class _LoginPageState extends State<LoginPage> {
           _isLoading = true;
         });
         UsersClient usersClient = UsersClient(MobileApiClient());
-        //TODO send token to endpoint to see if it's expired, then generate new token
         var user =
             await usersClient.login(_loginData.login, _loginData.password);
         globals.currentUser = user;
