@@ -54,6 +54,9 @@ class _ChatListPageState extends State<ChatListPage> {
                 stream: BlocProvider.of<ChatBloc>(context).unreadMessages,
                 builder: (c, snapshot) {
                   final unreadChats = snapshot.data;
+                  if(unreadChats == null) {
+                    return Container();
+                  }
                   return Expanded(
                   child: ListView.builder(
                     itemCount: _chats.length,
