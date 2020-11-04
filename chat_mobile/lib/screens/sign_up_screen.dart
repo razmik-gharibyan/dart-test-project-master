@@ -186,7 +186,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Text(
                             "back to login",
                           style: TextStyle(
-                            fontSize: 9,
+                            fontSize: 12,
                             color: Colors.lightBlueAccent
                           ),
                         ),
