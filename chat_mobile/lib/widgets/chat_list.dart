@@ -3,7 +3,9 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:chat_api_client/chat_api_client.dart';
+import 'package:chat_mobile/bloc/chat_bloc.dart';
 import 'package:chat_mobile/helpers/chat_helper.dart';
+import 'package:chat_mobile/providers/bloc_provider.dart';
 import 'package:chat_mobile/providers/chat_provider.dart';
 import 'package:chat_models/chat_models.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,27 +30,12 @@ class ChatListPage extends StatefulWidget {
 
 class _ChatListPageState extends State<ChatListPage> {
   var _chats = <Chat>[];
-  Set<ChatId> _unreadChats = HashSet<ChatId>();
-  StreamSubscription<Set<ChatId>> _unreadMessagesSubscription;
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
       refreshChats();
-      _unreadMessagesSubscription = widget._chatComponent
-          .subscribeUnreadMessagesNotification((unreadChatIds) {
-        setState(() {
-          _unreadChats.clear();
-          _unreadChats.addAll(unreadChatIds);
-        });
-      });
-  }
-
-  @override
-  void dispose() {
-    _unreadMessagesSubscription.cancel();
-    super.dispose();
   }
 
   @override
@@ -63,28 +50,33 @@ class _ChatListPageState extends State<ChatListPage> {
               _chats.isEmpty ?
               Center(
                 child: Text('You do not have chats'),
-              ) : Expanded(
-                child: ListView.builder(
-                  itemCount: _chats.length,
-                  itemBuilder: (ctx, index) => Container(
-                    child: ListTile(
-                      tileColor: _checkMatchingUsers(_chatProvider.selectedUsers, _chats[index].members) ? Colors.lightBlueAccent : Colors.transparent,
-                      leading: _unreadChats.contains(_chats[index].id) ? const Icon(Icons.message) : null,
-                      title: Text(_chats[index].members.map((user) => user.name).join(", ")),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          new MaterialPageRoute(
-                            builder: (context) {
-                              return ChatContentPage(
-                                chat: _chats[index],
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                ),
+              ) : StreamBuilder(
+                stream: BlocProvider.of<ChatBloc>(context).unreadMessages,
+                builder: (c, snapshot) {
+                  final unreadChats = snapshot.data;
+                  return Expanded(
+                  child: ListView.builder(
+                    itemCount: _chats.length,
+                    itemBuilder: (ctx, index) => Container(
+                      child: ListTile(
+                        tileColor: _checkMatchingUsers(_chatProvider.selectedUsers, _chats[index].members) ? Colors.lightBlueAccent : Colors.transparent,
+                        leading: unreadChats.contains(_chats[index].id) ? const Icon(Icons.message) : null,
+                        title: Text(_chats[index].members.map((user) => user.name).join(", ")),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            new MaterialPageRoute(
+                              builder: (context) {
+                                return ChatContentPage(
+                                  chat: _chats[index],
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ),
+                );}
               ),
             ],
           ),
