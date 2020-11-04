@@ -6,7 +6,6 @@ import 'package:chat_mobile/screens/main_screen.dart';
 import 'package:chat_mobile/screens/sign_up_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:chat_mobile/api/api_client.dart';
 import 'package:chat_mobile/globals.dart' as globals;
 import 'package:chat_mobile/helpers/global_consts.dart' as consts;
