@@ -169,7 +169,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         this._accountData.password = value;
                       },
                       decoration: new InputDecoration(
-                          hintText: 'Password', labelText: 'Your password'),
+                          hintText: 'New password', labelText: 'new password'),
                     ),
                     TextFormField(
                       enabled: _enableEdit,
