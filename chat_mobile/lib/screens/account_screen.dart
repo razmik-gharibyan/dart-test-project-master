@@ -78,7 +78,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   String _validatePhoneNumber(String value) {
     if (value.length < 9) {
-      // check last name rules here
+      // check phone rules here
       return 'Phone number should be at least 9 characters.';
     }
     return null;
@@ -194,12 +194,13 @@ class _AccountScreenState extends State<AccountScreen> {
                     TextFormField(
                       enabled: _enableEdit,
                       controller: _phoneController,
+                      validator: this._validatePhoneNumber,
                       keyboardType: TextInputType.number,
                       onSaved: (String value) {
                         this._accountData.phone = value;
                       },
                       decoration: InputDecoration(
-                          hintText: 'Phone number (Optional)', labelText: 'Your phone number'),
+                          hintText: 'Phone number', labelText: 'Your phone number'),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

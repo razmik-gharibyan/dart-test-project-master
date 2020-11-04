@@ -86,7 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String _validatePhone(String value) {
     if (value.length < 9) {
-      // check login rules here
+      // check phone rules here
       return 'Phone number should be at least 9 characters.';
     }
     return null;
@@ -167,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       this._signUpData.phone = value;
                     },
                     decoration: InputDecoration(
-                        hintText: 'Phone (Optional)', labelText: 'Enter your phone number'),
+                        hintText: 'Phone', labelText: 'Enter your phone number'),
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 20),
