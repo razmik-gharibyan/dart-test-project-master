@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
           usersClient = UsersClient(MobileApiClient());
           //TODO send token to endpoint to see if it's expired, if token is expired then catch thrown
           //TODO exception and try to login user with login and password from saved sharedPreferences
-          // I consider that token is never expired so if user still logged in then stay logged in
+          // I consider that token is never expired so if user is not logged out then keep login user
           var user =
               await usersClient.login(prefs.getString(consts.LOGIN), prefs.getString(consts.PASSWORD));
           globals.currentUser = user;
